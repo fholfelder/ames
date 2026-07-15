@@ -1,6 +1,9 @@
-# Ausbildungsmesse
+# ames
+`ames` war einer griechischen Mythologie zufolge ein Gott, welcher sich um die Ausbildung seiner Schützlinge sorgte und somit immer neue Methoden erschuf, diese zu fordern und zu fördern. Darauf hin entwickelte er ein ultrakrasses mega nices Tool mit Vue3, welches er fortan auf Ausbildungsmessen mitnahm. Nachgelesen kann das ganze [hier](https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ).
+Da sieht man mal, mit welchen Frameoworks die Götter schon im alten Griechenland hantiert haben.
 
-Dieses VueJS-Projekt kann zur Vorführung auf z.B. Ausbildungsmessen genutzt werden.
+...
+Ne Spaß ames bedeutet einfach **a**usbildungs**mes**sen-Tool. Aber cool wär's schon gewesen oder?
 
 ## Ausführung
 
