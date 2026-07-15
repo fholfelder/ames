@@ -1,5 +1,5 @@
 # ames
-`ames` war einer griechischen Mythologie zufolge ein Gott, welcher sich um die Ausbildung seiner Schützlinge sorgte und somit immer neue Methoden erschuf, diese zu fordern und zu fördern. Darauf hin entwickelte er ein ultrakrasses mega nices Tool mit Vue3, welches er fortan auf Ausbildungsmessen mitnahm. Wirklich beeindruckend, mit welchen Framworks die Götter schon im alten Griechenland hantiert haben. Nachgelesen kann das ganze [hier](https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ).
+`ames` war einer griechischen Mythologie zufolge ein Gott, welcher sich um die Ausbildung seiner Schützlinge sorgte und somit immer neue Methoden erschuf, diese zu fordern und zu fördern. Darauf hin entwickelte er ein ultrakrasses mega nices Tool mit Vue3, welches er fortan auf Ausbildungsmessen mitnahm. Wirklich beeindruckend, mit welchen Frameworks die Götter schon im alten Griechenland hantiert haben. Nachgelesen kann das ganze [hier](https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ).
 
 ...
 Ne Spaß ames bedeutet einfach **a**usbildungs**mes**sen-Tool. Aber cool wär's schon gewesen oder?
@@ -16,7 +16,7 @@ Ne Spaß ames bedeutet einfach **a**usbildungs**mes**sen-Tool. Aber cool wär's 
 ## Setup
 
 - `bun` installieren
-- `bun install` installiert all `npm`-Abhänigkeiten (=> viel schneller als `npm install`)
+- `bun install` installiert alle `npm`-Abhänigkeiten (=> viel schneller als `npm install`)
 
 ## Development
 
