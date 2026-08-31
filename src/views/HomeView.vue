@@ -19,41 +19,35 @@ const avatarSrc = computed(() =>
     : new URL('@/assets/raetselbert.gif', import.meta.url).href
 )
 
+// Sprechblase nur sichtbar, wenn Rätselbert da ist UND er nicht gerade fällt
+const showBubble = computed(() => showAvatar.value && !isFalling.value)
+
 onMounted(() => {
-  // 1. Eintritts-Portal erscheint
   setTimeout(() => {
     showEntryPortal.value = true
   }, 200)
 
-  // 2. Rätselbert springt heraus und landet auf seiner Position
   setTimeout(() => {
     showAvatar.value = true
   }, 500)
 
-  // 3. Eintritts-Portal schrumpft wieder weg
   setTimeout(() => {
     entryPortalShrinking.value = true
   }, 1200)
 
-  // 4. Eintritts-Portal komplett aus dem DOM entfernen
   setTimeout(() => {
     showEntryPortal.value = false
   }, 1700)
 })
 
 function startFallSequence() {
-  // 1. Button startet Verschwinden-Animation (via <Transition>)
   showButton.value = false
-
-  // 2. Portal erscheinen lassen
   showPortal.value = true
 
-  // 3. kurz warten, dann Gif wechseln & Fallanimation starten
   setTimeout(() => {
     isFalling.value = true
   }, 250)
 
-  // 4. Nach Ende der Fallanimation zur nächsten Seite
   setTimeout(() => {
     router!.push('exercise')
   }, 1600)
@@ -69,9 +63,11 @@ function startFallSequence() {
     </v-row>
     <v-row>
       <v-col cols="12" class="d-flex justify-center align-end avatar-row">
-        <div class="speech-bubble">
-          <p>Kannst du das Rätsel lösen?</p>
-        </div>
+        <Transition name="bubble-vanish">
+          <div v-if="showBubble" class="speech-bubble">
+            <p>Kannst du das Rätsel lösen?</p>
+          </div>
+        </Transition>
       </v-col>
     </v-row>
     <v-row>
@@ -120,8 +116,6 @@ function startFallSequence() {
   font-size: 32px;
 }
 
-/* Verschwinden-Animation für den Button: schrumpft, rotiert leicht
-   und wird transparent - wie ein "Reingesogen werden" ins Portal */
 .button-vanish-leave-active {
   transition: all 0.4s cubic-bezier(0.55, 0, 0.85, 0.35);
   position: absolute;
@@ -130,7 +124,6 @@ function startFallSequence() {
   transform: scale(0.2) rotate(20deg) translateY(40px);
   opacity: 0;
 }
-/* Startzustand explizit setzen, damit der Übergang sauber von "normal" ausgeht */
 .button-vanish-leave-from {
   transform: scale(1) rotate(0deg) translateY(0);
   opacity: 1;
@@ -147,7 +140,7 @@ function startFallSequence() {
   border-radius: 16px;
   padding: 16px 20px;
   max-width: 300px;
-  margin-bottom: 20px;
+  margin-left: 500px;
 }
 .speech-bubble p {
   margin: 0;
@@ -178,6 +171,23 @@ function startFallSequence() {
   border-right: 12px solid #ffffff;
 }
 
+/* Ein-/Ausblenden der Sprechblase: erscheint sanft, sobald Rätselbert da ist,
+   verschwindet ebenso sanft, sobald er ins Portal fällt */
+.bubble-vanish-enter-active,
+.bubble-vanish-leave-active {
+  transition: all 0.3s ease;
+}
+.bubble-vanish-enter-from,
+.bubble-vanish-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.bubble-vanish-enter-to,
+.bubble-vanish-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
 .portal-col {
   position: relative;
   min-height: 400px;
@@ -185,14 +195,13 @@ function startFallSequence() {
 }
 
 .avatar {
-  height: 150px;
+  height: 180px;
   flex-shrink: 0;
   position: absolute;
-  bottom: 312px;
+  bottom: 300px;
   z-index: 100;
 }
 
-/* Eintritts-Portal: erscheint an Rätselberts Zielposition beim Laden der Seite */
 .entry-portal {
   position: absolute;
   bottom: 300px;
@@ -221,7 +230,6 @@ function startFallSequence() {
   100% { transform: scale(0); opacity: 0; width: 180px; height: 50px; }
 }
 
-/* Rätselbert springt aus dem Portal heraus auf seine Position */
 .avatar-spawn {
   animation: spawnFromPortal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
@@ -238,7 +246,7 @@ function startFallSequence() {
     opacity: 1;
   }
   100% {
-    bottom: 312px;
+    bottom: 300px;
     transform: scale(1) rotate(0deg);
     opacity: 1;
   }
