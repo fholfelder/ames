@@ -2,71 +2,72 @@
   <div :class="keyboardClass"></div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Keyboard from "simple-keyboard";
 import "simple-keyboard/build/css/index.css";
+import { ref, onMounted, watch } from 'vue';
 
-export default {
-  name: "SimpleKeyboard",
-  props: {
-    keyboardClass: {
-      default: "simple-keyboard",
-      type: String
-    },
-    input: {
-      type: String
-    }
+const props = defineProps({
+  keyboardClass: {
+    type: String,
+    default: () => "simple-keyboard",
   },
-  data: () => ({
-    keyboard: null
-  }),
-  mounted() {
-    this.keyboard = new Keyboard(this.keyboardClass, {
-      onChange: this.onChange,
-      onKeyPress: this.onKeyPress,
-      layout: {
-        'default': [
-          '0 1 2 3 4 5 6 7 8 9',
-          'q w e r t z u i o p {bksp}',
-          '{lock} a s d f g h j k l {enter}',
-          '{shift} y x c v b n m , . / {shift}',
-          '{space}'
-        ],
-        'shift': [
-          '0 1 2 3 4 5 6 7 8 9',
-          'Q W E R T Z U I O P {bksp}',
-          '{lock} A S D F G H J K L {enter}',
-          '{shift} Y X C V B N M < > ? {shift}',
-          '{space}'
-        ]
-      }
-    });
-    document.querySelector('.hg-button-enter').textContent = 'enter';
-  },
-  methods: {
-    onChange(input) {
-      this.$emit("onChange", input);
-    },
-    onKeyPress(button) {
-      this.$emit("onKeyPress", button);
+  input: String
+})
 
-      if (button === "{shift}" || button === "{lock}") this.handleShift();
-    },
-    handleShift() {
-      const currentLayout = this.keyboard.options.layoutName;
-      const shiftToggle = currentLayout === "default" ? "shift" : "default";
+const emit = defineEmits(['onChange', 'onKeyPress']);
 
-      this.keyboard.setOptions({
-        layoutName: shiftToggle
-      });
+const keyboard = ref<Keyboard>();
+
+onMounted(() => {
+  keyboard.value = new Keyboard(props.keyboardClass, {
+    onChange: onChange,
+    onKeyPress: onKeyPress,
+    layout: {
+      'default': [
+        '0 1 2 3 4 5 6 7 8 9',
+        'q w e r t z u i o p {bksp}',
+        '{lock} a s d f g h j k l {enter}',
+        '{shift} y x c v b n m , . / {shift}',
+        '{space}'
+      ],
+      'shift': [
+        '0 1 2 3 4 5 6 7 8 9',
+        'Q W E R T Z U I O P {bksp}',
+        '{lock} A S D F G H J K L {enter}',
+        '{shift} Y X C V B N M < > ? {shift}',
+        '{space}'
+      ]
     }
-  },
-  watch: {
-    input(input) {
-      this.keyboard.setInput(input);
-    }
+  });
+  document.querySelector('.hg-button-enter').textContent = 'enter';
+});
+
+function onChange(input: any) {
+  emit("onChange", input);
+}
+
+function onKeyPress(button: any) {
+  emit("onKeyPress", button);
+
+  if (button === "{shift}" || button === "{lock}") handleShift();
+}
+
+function handleShift() {
+  const currentLayout = keyboard.value!.options.layoutName;
+  const shiftToggle = currentLayout === "default" ? "shift" : "default";
+
+  keyboard.value!.setOptions({
+    layoutName: shiftToggle
+  });
+}
+
+watch(
+  () => props.input,
+  (val) => {
+    keyboard.value!.setInput(val);
   }
-};
+);
 </script>
 
 <style>

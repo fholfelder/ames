@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <v-app>
     <router-view v-slot="{ Component }">
@@ -26,4 +23,8 @@
   opacity: 0;
   transform: translateX(-40px);
 }
+</style>
+
+<style>
+@import '@/assets/base.css';
 </style>
