@@ -8,18 +8,16 @@ const isFalling = ref(false)
 const showButton = ref(true)
 const showPortal = ref(false)
 
-// Eintritts-Sequenz: Rätselbert springt beim Laden aus einem Portal
 const showEntryPortal = ref(false)
 const entryPortalShrinking = ref(false)
 const showAvatar = ref(false)
 
 const avatarSrc = computed(() =>
   isFalling.value
-    ? new URL('@/assets/raetselbert-faellt.gif', import.meta.url).href
+    ? new URL('@/assets/raetselbert.gif', import.meta.url).href
     : new URL('@/assets/raetselbert.gif', import.meta.url).href
 )
 
-// Sprechblase nur sichtbar, wenn Rätselbert da ist UND er nicht gerade fällt
 const showBubble = computed(() => showAvatar.value && !isFalling.value)
 
 onMounted(() => {
@@ -70,40 +68,43 @@ function startFallSequence() {
         </Transition>
       </v-col>
     </v-row>
+
     <v-row>
       <v-col class="d-flex justify-center portal-col">
-        <!-- Eintritts-Portal (beim Laden der Seite) -->
-        <div
-          v-if="showEntryPortal"
-          class="entry-portal"
-          :class="{ 'entry-portal-shrink': entryPortalShrinking }"
-        ></div>
+        <div class="button-anchor">
+          <!-- Eintritts-Portal -->
+          <div
+            v-if="showEntryPortal"
+            class="entry-portal"
+            :class="{ 'entry-portal-shrink': entryPortalShrinking }"
+          ></div>
 
-        <!-- Ausgangs-Portal (beim Klick auf den Button) -->
-        <div v-if="showPortal" class="portal" :class="{ 'portal-active': showPortal }"></div>
+          <!-- Ausgangs-Portal (jetzt eigener, leicht linksversetzter Anker) -->
+          <div v-if="showPortal" class="portal" :class="{ 'portal-active': showPortal }"></div>
 
-        <!-- Avatar -->
-        <img
-          v-if="showAvatar"
-          alt="Rätselbert"
-          :src="avatarSrc"
-          class="avatar"
-          :class="{ 'avatar-falling': isFalling, 'avatar-spawn': !isFalling }"
-        />
+          <!-- Avatar -->
+          <img
+            v-if="showAvatar"
+            alt="Rätselbert"
+            :src="avatarSrc"
+            class="avatar"
+            :class="{ 'avatar-falling': isFalling, 'avatar-spawn': !isFalling }"
+          />
 
-        <!-- Button mit Verschwinden-Animation -->
-        <Transition name="button-vanish">
-          <v-card
-            v-if="showButton"
-            class="mt-12"
-            @click="startFallSequence"
-            color="#1F82A5"
-          >
-            <v-card-item class="go-card text-center d-flex flex-column align-center justify-center">
-              Los gehts!
-            </v-card-item>
-          </v-card>
-        </Transition>
+          <!-- Button mit Verschwinden-Animation -->
+          <Transition name="button-vanish">
+            <v-card
+              v-if="showButton"
+              class="mt-12"
+              @click="startFallSequence"
+              color="#1F82A5"
+            >
+              <v-card-item class="go-card text-center d-flex flex-column align-center justify-center">
+                Los gehts!
+              </v-card-item>
+            </v-card>
+          </Transition>
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -140,7 +141,8 @@ function startFallSequence() {
   border-radius: 16px;
   padding: 16px 20px;
   max-width: 300px;
-  margin-left: 500px;
+  margin-left: 200px;
+  margin-bottom: -30px;
 }
 .speech-bubble p {
   margin: 0;
@@ -171,8 +173,6 @@ function startFallSequence() {
   border-right: 12px solid #ffffff;
 }
 
-/* Ein-/Ausblenden der Sprechblase: erscheint sanft, sobald Rätselbert da ist,
-   verschwindet ebenso sanft, sobald er ins Portal fällt */
 .bubble-vanish-enter-active,
 .bubble-vanish-leave-active {
   transition: all 0.3s ease;
@@ -189,29 +189,36 @@ function startFallSequence() {
 }
 
 .portal-col {
-  position: relative;
   min-height: 400px;
   align-items: flex-end;
 }
 
+.button-anchor {
+  position: relative;
+  display: inline-block;
+}
+
+/* Basiszustand jetzt MIT transform, damit beim Wechsel avatar-spawn -> avatar-falling
+   kein kurzer Frame ohne Transform (= Sprung zur Ankerecke) entsteht */
 .avatar {
   height: 180px;
-  flex-shrink: 0;
   position: absolute;
-  bottom: 300px;
+  top: 25px;
+  left: 5px;
+  transform: translate(-45%, -55%);
   z-index: 100;
+  transform-origin: center center;
 }
 
 .entry-portal {
   position: absolute;
-  bottom: 300px;
+  transform: translate(-45%, -55%) scale(0);
   width: 40px;
   height: 12px;
   border-radius: 50%;
   background: radial-gradient(ellipse at center, #000000 0%, #1a1a1a 60%, transparent 100%);
   box-shadow: 0 0 40px 10px rgba(0, 0, 0, 0.6);
   z-index: 90;
-  transform: scale(0);
   opacity: 0;
   animation: entryPortalGrow 0.4s ease-out forwards;
 }
@@ -221,13 +228,13 @@ function startFallSequence() {
 }
 
 @keyframes entryPortalGrow {
-  0% { transform: scale(0); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; width: 180px; height: 50px; }
+  0% { transform: translate(-45%, -55%) scale(0); opacity: 0; }
+  100% { transform: translate(-45%, -55%) scale(1); opacity: 1; width: 180px; height: 50px; }
 }
 
 @keyframes entryPortalDisappear {
-  0% { transform: scale(1); opacity: 1; width: 180px; height: 50px; }
-  100% { transform: scale(0); opacity: 0; width: 180px; height: 50px; }
+  0% { transform: translate(-45%, -55%) scale(1); opacity: 1; width: 180px; height: 50px; }
+  100% { transform: translate(-45%, -55%) scale(0); opacity: 0; width: 180px; height: 50px; }
 }
 
 .avatar-spawn {
@@ -236,32 +243,30 @@ function startFallSequence() {
 
 @keyframes spawnFromPortal {
   0% {
-    bottom: 280px;
-    transform: scale(0.1) rotate(-30deg);
+    transform: translate(-45%, -30%) scale(0.1) rotate(-30deg);
     opacity: 0;
   }
   60% {
-    bottom: 330px;
-    transform: scale(1.1) rotate(8deg);
+    transform: translate(-45%, -75%) scale(1.1) rotate(8deg);
     opacity: 1;
   }
   100% {
-    bottom: 300px;
-    transform: scale(1) rotate(0deg);
+    transform: translate(-45%, -55%) scale(1) rotate(0deg);
     opacity: 1;
   }
 }
 
 .portal {
   position: absolute;
-  bottom: 40px;
+  top: 25px;
+  left: -130px;
+  transform: translate(-145%, -55%) scale(0);
   width: 40px;
   height: 12px;
   border-radius: 50%;
   background: radial-gradient(ellipse at center, #000000 0%, #1a1a1a 60%, transparent 100%);
   box-shadow: 0 0 40px 10px rgba(0, 0, 0, 0.6);
   z-index: 50;
-  transform: scale(0);
   opacity: 0;
 }
 
@@ -270,8 +275,8 @@ function startFallSequence() {
 }
 
 @keyframes portalGrow {
-  0% { transform: scale(0); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; width: 312px; height: 60px; }
+  0% { transform: translate(-70%, -55%) scale(0); opacity: 0; }
+  100% { transform: translate(-70%, -55%) scale(1); opacity: 1; width: 200px; height: 55px; }
 }
 
 .avatar-falling {
@@ -280,8 +285,7 @@ function startFallSequence() {
 }
 
 @keyframes fallIntoPortal {
-  0% { bottom: 312px; transform: scale(1) rotate(0deg); opacity: 1; }
-  60% { bottom: 120px; transform: scale(0.7) rotate(15deg); opacity: 1; }
-  100% { bottom: 20px; transform: scale(0.1) rotate(45deg); opacity: 0; }
+  0% { transform: translate(-145%, -255%) scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translate(-145%, -55%) scale(0.1) rotate(45deg); opacity: 0; }
 }
 </style>
