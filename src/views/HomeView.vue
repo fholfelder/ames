@@ -2,6 +2,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vuetify/lib/composables/router.mjs'
 
+document.documentElement.requestFullscreen()
+
 const router = useRouter()
 
 const isFalling = ref(false)
