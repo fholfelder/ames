@@ -57,10 +57,12 @@ function enterCharacter(event: unknown) {
           v-model="solutionInput"
           label="Lösungswort"
           :errorMessages="errorMessages"
-          :focused="true"
           variant="outlined"
           height="200"
           @keyup.enter="checkInput"
+          inputmode="none"
+          focused
+          readonly
         ></v-text-field>
         <v-btn color="success" @click="checkInput">Eingabe prüfen</v-btn>
         <SuccessDialog v-model="isDialogOpen"></SuccessDialog>
