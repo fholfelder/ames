@@ -23,6 +23,6 @@ defineProps<{
 .codeText {
   font-family: monospace;
   font-size: 16px;
-  white-space: pre;
+  white-space: pre-wrap;
 }
 </style>
