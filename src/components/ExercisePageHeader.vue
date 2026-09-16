@@ -30,7 +30,7 @@ const router = useRouter()
       </v-col>
     </v-row>
     <v-row class="avatar-row">
-      <v-col class="d-flex justify-center">
+      <v-col class="d-flex justify-start" style="margin-left: 160px;">
         <PortalAvatar :message="message" :avatar-src="avatarSrc" :size="size" />
       </v-col>
     </v-row>
