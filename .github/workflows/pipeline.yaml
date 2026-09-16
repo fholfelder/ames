@@ -1,0 +1,81 @@
+name: Ames Pipeline
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+    tags:
+      - "**"
+
+env:
+  NAMESPACE: default
+  APP_NAME: ames
+  IMAGE_NAME: felixholfelder/ames
+  VERSION: ${{ github.ref_name }}
+
+jobs:
+  qualitygate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node
+        uses: actions/setup-node@v4
+
+      - name: Use bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install
+        run: bun install
+
+      - name: Lint project
+        run: bun lint
+
+  build:
+    name: Build & Upload Pages Artifact
+    runs-on: ubuntu-latest
+    needs: qualitygate
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build app
+        run: bun run build
+
+      - name: 404 Fallback
+        run: cp dist/index.html dist/404.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+  dockerize:
+    name: Build & Push Docker Image
+    runs-on: ubuntu-latest
+    needs: qualitygate
+    if: github.ref_type == 'tag' || github.ref_name == 'main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build . -t ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+
+      - name: Push to Dockerhub
+        run: |
+          docker login -u=${{ secrets.DOCKERHUB_USER }} -p=${{ secrets.DOCKERHUB_PASS }}
+          docker push ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
