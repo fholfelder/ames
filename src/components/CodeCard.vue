@@ -17,7 +17,7 @@ defineProps<{
 <style scoped>
 .codeCard {
   background-color: #f0f0f0;
-  font-family: "Segoe UI Mono";
+  font-family: 'Segoe UI Mono';
 }
 
 .codeText {

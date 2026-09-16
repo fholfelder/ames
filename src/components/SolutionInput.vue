@@ -1,44 +1,43 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Keyboard from './Keyboard.vue'
+import KeyboardWrapper from './KeyboardWrapper.vue'
 import SuccessDialog from './SuccessDialog.vue'
 import ErrorDialog from './ErrorDialog.vue'
 
 const props = defineProps<{
   solution: string
-}>();
+}>()
 
-const solutionInput = ref("");
-const isDialogOpen = ref();
-const isFocused = ref(false);
-const showError = ref(false);
-const errorMessages = ref();
+const solutionInput = ref('')
+const isDialogOpen = ref()
+const isFocused = ref(false)
+const showError = ref(false)
+const errorMessages = ref()
 
 function checkInput() {
   const solved = solutionInput.value.toLowerCase() == props.solution.toLowerCase()
   isDialogOpen.value = solved
-  if (!solved)
-    showError.value = true;
+  if (!solved) showError.value = true
 }
 
 function enterCharacter(event: unknown) {
-  isFocused.value = true;
-  switch(event) {
-    case "{bksp}":
-      solutionInput.value = solutionInput.value.slice(0, -1);  
-      break;
-    case "{enter}":
-      checkInput();
-      break;
-    case "{space}":
-      solutionInput.value = solutionInput.value + " ";
-      break;
-    case "{tab}":
-    case "{lock}":
-    case "{shift}":
-      break;
+  isFocused.value = true
+  switch (event) {
+    case '{bksp}':
+      solutionInput.value = solutionInput.value.slice(0, -1)
+      break
+    case '{enter}':
+      checkInput()
+      break
+    case '{space}':
+      solutionInput.value = solutionInput.value + ' '
+      break
+    case '{tab}':
+    case '{lock}':
+    case '{shift}':
+      break
     default:
-      solutionInput.value = solutionInput.value + event;
+      solutionInput.value = solutionInput.value + event
   }
 }
 </script>
@@ -53,16 +52,24 @@ function enterCharacter(event: unknown) {
     </v-row>
     <v-row>
       <v-col cols="12">
-        <v-text-field class="mb-5" v-model="solutionInput" label="Lösungswort" :errorMessages="errorMessages" :focused="true" variant="outlined" height="200" @keyup.enter="checkInput"></v-text-field>
+        <v-text-field
+          class="mb-5"
+          v-model="solutionInput"
+          label="Lösungswort"
+          :errorMessages="errorMessages"
+          :focused="true"
+          variant="outlined"
+          height="200"
+          @keyup.enter="checkInput"
+        ></v-text-field>
         <v-btn color="success" @click="checkInput">Eingabe prüfen</v-btn>
         <SuccessDialog v-model="isDialogOpen"></SuccessDialog>
       </v-col>
       <v-col cols="12">
-        <Keyboard @onKeyPress="enterCharacter"></Keyboard>
+        <keyboard-wrapper @onKeyPress="enterCharacter"></keyboard-wrapper>
       </v-col>
     </v-row>
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

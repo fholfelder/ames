@@ -15,7 +15,7 @@ const showAvatar = ref(false)
 const avatarSrc = computed(() =>
   isFalling.value
     ? new URL('@/assets/raetselbert.gif', import.meta.url).href
-    : new URL('@/assets/raetselbert.gif', import.meta.url).href
+    : new URL('@/assets/raetselbert.gif', import.meta.url).href,
 )
 
 const showBubble = computed(() => showAvatar.value && !isFalling.value)
@@ -93,13 +93,10 @@ function startFallSequence() {
 
           <!-- Button mit Verschwinden-Animation -->
           <Transition name="button-vanish">
-            <v-card
-              v-if="showButton"
-              class="mt-12"
-              @click="startFallSequence"
-              color="#1F82A5"
-            >
-              <v-card-item class="go-card text-center d-flex flex-column align-center justify-center">
+            <v-card v-if="showButton" class="mt-12" @click="startFallSequence" color="#1F82A5">
+              <v-card-item
+                class="go-card text-center d-flex flex-column align-center justify-center"
+              >
                 Los gehts!
               </v-card-item>
             </v-card>
@@ -137,7 +134,7 @@ function startFallSequence() {
 .speech-bubble {
   position: relative;
   background: #ffffff;
-  border: 2px solid #1F82A5;
+  border: 2px solid #1f82a5;
   border-radius: 16px;
   padding: 16px 20px;
   max-width: 300px;
@@ -148,7 +145,7 @@ function startFallSequence() {
   margin: 0;
   font-size: 20px;
   font-weight: 600;
-  color: #1F82A5;
+  color: #1f82a5;
 }
 .speech-bubble::before {
   content: '';
@@ -159,7 +156,7 @@ function startFallSequence() {
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-right: 14px solid #1F82A5;
+  border-right: 14px solid #1f82a5;
 }
 .speech-bubble::after {
   content: '';
@@ -228,13 +225,31 @@ function startFallSequence() {
 }
 
 @keyframes entryPortalGrow {
-  0% { transform: translate(-45%, -55%) scale(0); opacity: 0; }
-  100% { transform: translate(-45%, -55%) scale(1); opacity: 1; width: 180px; height: 50px; }
+  0% {
+    transform: translate(-45%, -55%) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-45%, -55%) scale(1);
+    opacity: 1;
+    width: 180px;
+    height: 50px;
+  }
 }
 
 @keyframes entryPortalDisappear {
-  0% { transform: translate(-45%, -55%) scale(1); opacity: 1; width: 180px; height: 50px; }
-  100% { transform: translate(-45%, -55%) scale(0); opacity: 0; width: 180px; height: 50px; }
+  0% {
+    transform: translate(-45%, -55%) scale(1);
+    opacity: 1;
+    width: 180px;
+    height: 50px;
+  }
+  100% {
+    transform: translate(-45%, -55%) scale(0);
+    opacity: 0;
+    width: 180px;
+    height: 50px;
+  }
 }
 
 .avatar-spawn {
@@ -275,8 +290,16 @@ function startFallSequence() {
 }
 
 @keyframes portalGrow {
-  0% { transform: translate(-70%, -55%) scale(0); opacity: 0; }
-  100% { transform: translate(-70%, -55%) scale(1); opacity: 1; width: 200px; height: 55px; }
+  0% {
+    transform: translate(-70%, -55%) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-70%, -55%) scale(1);
+    opacity: 1;
+    width: 200px;
+    height: 55px;
+  }
 }
 
 .avatar-falling {
@@ -285,7 +308,13 @@ function startFallSequence() {
 }
 
 @keyframes fallIntoPortal {
-  0% { transform: translate(-145%, -255%) scale(1) rotate(0deg); opacity: 1; }
-  100% { transform: translate(-145%, -55%) scale(0.1) rotate(45deg); opacity: 0; }
+  0% {
+    transform: translate(-145%, -255%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-145%, -55%) scale(0.1) rotate(45deg);
+    opacity: 0;
+  }
 }
 </style>

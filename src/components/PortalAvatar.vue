@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue'
 
 interface Props {
-  message: string;
-  avatarSrc?: string;
-  size?: number;
-  top?: string;
-  centered?: boolean;
-  left?: string;
-  portalDelay?: number;
-  avatarDelay?: number;
-  shrinkDelay?: number;
-  removeDelay?: number;
+  message: string
+  avatarSrc?: string
+  size?: number
+  top?: string
+  centered?: boolean
+  left?: string
+  portalDelay?: number
+  avatarDelay?: number
+  shrinkDelay?: number
+  removeDelay?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -24,30 +24,37 @@ const props = withDefaults(defineProps<Props>(), {
   avatarDelay: 500,
   shrinkDelay: 1300,
   removeDelay: 1800,
-});
+})
 
-const showPortal = ref(false);
-const showAvatar = ref(false);
-const portalShrinking = ref(false);
-const showBubble = ref(false);
+const showPortal = ref(false)
+const showAvatar = ref(false)
+const portalShrinking = ref(false)
+const showBubble = ref(false)
 
-const portalSize = computed(() => Math.round(props.size * 0.55));
-const bubbleLeft = computed(() => `${props.size / 2 + 30}px`);
+const portalSize = computed(() => Math.round(props.size * 0.55))
+const bubbleLeft = computed(() => `${props.size / 2 + 30}px`)
 
 onMounted(() => {
-  setTimeout(() => { showPortal.value = true; }, props.portalDelay);
-  setTimeout(() => { showAvatar.value = true; }, props.avatarDelay);
-  setTimeout(() => { portalShrinking.value = true; }, props.shrinkDelay);
-  setTimeout(() => { showPortal.value = false; }, props.removeDelay);
-  setTimeout(() => { showBubble.value = true; }, props.shrinkDelay);
-});
+  setTimeout(() => {
+    showPortal.value = true
+  }, props.portalDelay)
+  setTimeout(() => {
+    showAvatar.value = true
+  }, props.avatarDelay)
+  setTimeout(() => {
+    portalShrinking.value = true
+  }, props.shrinkDelay)
+  setTimeout(() => {
+    showPortal.value = false
+  }, props.removeDelay)
+  setTimeout(() => {
+    showBubble.value = true
+  }, props.shrinkDelay)
+})
 </script>
 
 <template>
-  <div
-    class="portal-corner"
-    :style="centered ? { top } : { top, left }"
-  >
+  <div class="portal-corner" :style="centered ? { top } : { top, left }">
     <div
       v-if="showPortal"
       class="portal-small"
@@ -62,11 +69,7 @@ onMounted(() => {
       :style="{ height: size + 'px' }"
     />
     <Transition name="bubble-fade">
-      <div
-        v-if="showBubble"
-        class="speech-bubble-corner"
-        :style="{ left: bubbleLeft }"
-      >
+      <div v-if="showBubble" class="speech-bubble-corner" :style="{ left: bubbleLeft }">
         <p>{{ message }}</p>
       </div>
     </Transition>
@@ -100,13 +103,25 @@ onMounted(() => {
 }
 
 @keyframes portalAppear {
-  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes portalDisappear {
-  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
 }
 
 .avatar-corner {
@@ -118,16 +133,25 @@ onMounted(() => {
 }
 
 @keyframes spitOut {
-  0% { transform: translate(-50%, -50%) scale(0.1) rotate(-30deg); opacity: 0; }
-  60% { transform: translate(-50%, -60%) scale(1.1) rotate(8deg); opacity: 1; }
-  100% { transform: translate(-50%, -70%) scale(1) rotate(0deg); opacity: 1; }
+  0% {
+    transform: translate(-50%, -50%) scale(0.1) rotate(-30deg);
+    opacity: 0;
+  }
+  60% {
+    transform: translate(-50%, -60%) scale(1.1) rotate(8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -70%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
 .speech-bubble-corner {
   position: absolute;
   top: -100px;
   background: #ffffff;
-  border: 2px solid #1F82A5;
+  border: 2px solid #1f82a5;
   border-radius: 16px;
   padding: 12px 16px;
   width: 300px;
@@ -138,7 +162,7 @@ onMounted(() => {
   margin: 0;
   font-size: 24px;
   font-weight: 600;
-  color: #1F82A5;
+  color: #1f82a5;
 }
 
 .speech-bubble-corner::before {
@@ -150,7 +174,7 @@ onMounted(() => {
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-right: 14px solid #1F82A5;
+  border-right: 14px solid #1f82a5;
 }
 
 .speech-bubble-corner::after {

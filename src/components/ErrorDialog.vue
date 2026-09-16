@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+import { watch } from 'vue'
 
 const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue'])
 
-let timeout: ReturnType<typeof setTimeout> | null = null;
+let timeout: ReturnType<typeof setTimeout> | null = null
 
 function onSubmit() {
-  emit('update:modelValue', false);
+  emit('update:modelValue', false)
 }
 
 watch(
@@ -16,15 +16,15 @@ watch(
     if (val) {
       timeout = setTimeout(() => {
         onSubmit()
-      }, 2000);
+      }, 2000)
     } else {
       if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
+        clearTimeout(timeout)
+        timeout = null
       }
     }
-  }
-);
+  },
+)
 </script>
 
 <template>
@@ -50,5 +50,4 @@ watch(
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

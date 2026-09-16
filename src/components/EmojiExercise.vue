@@ -1,33 +1,28 @@
 <script setup lang="ts">
-import { Alphabet } from '@/enums/AlphabetEnum';
-import CodeCard from './CodeCard.vue';
+import { Alphabet } from '@/enums/AlphabetEnum'
+import CodeCard from './CodeCard.vue'
 
 defineProps<{
   solution: string
 }>()
 
 function createExerciseTextForSolution(solution: string) {
-  let text = "Wie lautet der Wert von text nach Ausführung dieses Programms?\n\ntext = ";
+  let text = 'Wie lautet der Wert von text nach Ausführung dieses Programms?\n\ntext = '
 
   // "Encode" solution
-  const _solution: string[] = solution.toUpperCase().split("");
-  text += _solution
-    .map((character) => Alphabet[character as keyof typeof Alphabet])
-    .join("");
+  const _solution: string[] = solution.toUpperCase().split('')
+  text += _solution.map((character) => Alphabet[character as keyof typeof Alphabet]).join('')
 
   text += `"
 
-`;
+`
 
   // Print alphabet
   text += Object.entries(Alphabet)
-    .map(
-      ([letter, emoji]) =>
-        `text.REPLACE("${emoji}", "${letter.toLowerCase()}")`
-    )
-    .join("\n");
+    .map(([letter, emoji]) => `text.REPLACE("${emoji}", "${letter.toLowerCase()}")`)
+    .join('\n')
 
-  return text;
+  return text
 }
 </script>
 
@@ -45,4 +40,3 @@ function createExerciseTextForSolution(solution: string) {
     </v-row>
   </div>
 </template>
-

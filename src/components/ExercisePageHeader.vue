@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import PortalAvatar from './PortalAvatar.vue';
-import { useRouter } from 'vuetify/lib/composables/router.mjs';
+import PortalAvatar from './PortalAvatar.vue'
+import { useRouter } from 'vuetify/lib/composables/router.mjs'
 
 interface Props {
-  message: string;
-  avatarSrc?: string;
-  size?: number;
-  logoTarget?: string; // Route, zu der das Logo navigiert
+  message: string
+  avatarSrc?: string
+  size?: number
+  logoTarget?: string // Route, zu der das Logo navigiert
 }
 
 withDefaults(defineProps<Props>(), {
   logoTarget: '/',
-});
+})
 
-const router = useRouter();
+const router = useRouter()
 </script>
 
 <template>

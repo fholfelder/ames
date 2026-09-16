@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { useQRCode } from '@vueuse/integrations/useQRCode';
-import { useRouter } from 'vuetify/lib/composables/router.mjs';
-import { watch } from 'vue';
+import { useQRCode } from '@vueuse/integrations/useQRCode'
+import { useRouter } from 'vuetify/lib/composables/router.mjs'
+import { watch } from 'vue'
 
 const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue'])
-const router = useRouter();
+const router = useRouter()
 
 const qrcode = useQRCode('https://www.puzzleyou.de/jobs', { width: 250 })
 
-let timeout: ReturnType<typeof setTimeout> | null = null;
+let timeout: ReturnType<typeof setTimeout> | null = null
 
 function onSubmit() {
-  emit('update:modelValue', false);
-  router!.push('/');
+  emit('update:modelValue', false)
+  router!.push('/')
 }
 
 watch(
@@ -21,16 +21,16 @@ watch(
   (val) => {
     if (val) {
       timeout = setTimeout(() => {
-        onSubmit();
-      }, 60000);
+        onSubmit()
+      }, 60000)
     } else {
       if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
+        clearTimeout(timeout)
+        timeout = null
       }
     }
-  }
-);
+  },
+)
 </script>
 
 <template>
@@ -44,13 +44,15 @@ watch(
           <v-divider />
           <v-card-text class="text-center">
             <h3>Wir suchen dich!</h3>
-            <br>
+            <br />
             <p>Hol dir deinen Gewinn am <b>Glücksrad</b> ab.</p>
-            <br>
-            <p>Aber pssst... Wir haben auch den <b>passenden Ausbildungsplatz</b> für deine Zukunft!</p>
-            <br>
+            <br />
+            <p>
+              Aber pssst... Wir haben auch den <b>passenden Ausbildungsplatz</b> für deine Zukunft!
+            </p>
+            <br />
             <p>Scanne einfach den Code:</p>
-            <img class="mt-6 mb-2 rounded border" :src="qrcode" alt="QR Code">
+            <img class="mt-6 mb-2 rounded border" :src="qrcode" alt="QR Code" />
             <p>https://www.puzzleyou.de/jobs</p>
           </v-card-text>
           <v-divider />
@@ -64,5 +66,4 @@ watch(
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

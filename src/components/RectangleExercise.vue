@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import CodeCard from './CodeCard.vue';
-
+import CodeCard from './CodeCard.vue'
 
 function createExerciseText() {
   const text = `Wie viele Dreiecke (mit Spitze nach oben) verstecken sich hier?
@@ -10,9 +9,9 @@ function createExerciseText() {
    /\\  /\\
   /__\\/__\\
  /\\  /\\  /\\
-/__\\/__\\/__\\`;
+/__\\/__\\/__\\`
 
-  return text;
+  return text
 }
 </script>
 
